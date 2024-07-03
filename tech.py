@@ -21,7 +21,7 @@ from io import BytesIO
 
 os.environ['OPENAI_API_KEY'] = 'my_api_key'
 
-model_name = "gpt-4-turbo"
+model_name = "gpt-4o"
 temperature = 0
 llm = ChatOpenAI(model=model_name, temperature=temperature)
 
