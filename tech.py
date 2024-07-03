@@ -19,7 +19,7 @@ from docx.oxml.ns import qn
 from docx import Document as DocxDocument
 from io import BytesIO
 
-os.environ['OPENAI_API_KEY'] = 'sk-proj-kQ7SX6hJ4C4LBXyr2r1fT3BlbkFJBUs1AoYEEAiQlbfL2QYf'
+os.environ['OPENAI_API_KEY'] = 'my_api_key'
 
 model_name = "gpt-4-turbo"
 temperature = 0
