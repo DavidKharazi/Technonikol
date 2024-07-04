@@ -19,9 +19,9 @@ from docx.oxml.ns import qn
 from docx import Document as DocxDocument
 from io import BytesIO
 
-os.environ['OPENAI_API_KEY'] = 'sk-proj-kQ7SX6hJ4C4LBXyr2r1fT3BlbkFJBUs1AoYEEAiQlbfL2QYf'
+os.environ['OPENAI_API_KEY'] = 'my-api-key'
 
-model_name = "gpt-4-turbo"
+model_name = "gpt-4o"
 temperature = 0
 llm = ChatOpenAI(model=model_name, temperature=temperature)
 
@@ -34,8 +34,8 @@ session = boto3.session.Session()
 s3_client = session.client(
     service_name='s3',
     endpoint_url='https://storage.yandexcloud.net',
-    aws_access_key_id='YCAJEt7ilkMDiPuuZA--Sgb1H',
-    aws_secret_access_key='YCOJE46MLMRlPll_kl6oIllqvT7P7S65E4QohXLZ',
+    aws_access_key_id='my_access_key_id',
+    aws_secret_access_key='my_secret_access_key',
 )
 
 CHROMA_PATH = f'./chroma/{current_user}/new/'
@@ -367,12 +367,16 @@ prompt_new = ChatPromptTemplate.from_messages(
         (
             "system",
             '''
-            You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question.
-            You can also use information from chat_history if necessary.
-            If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
-            The context which you should use: {context}
-            In each product query, give 3 relevant answers.
-            The response should contain the product name and a link to it, of the three relevant products
+            Please find the most relevant products for the query from the provided knowledge base {context}.
+            If possible, utilize information from previous messages. If uncertain of the answer, briefly indicate so.
+            Respond to the following question using only your existing knowledge and the provided knowledge base: {context}
+            Avoid using the internet to find information.
+            Always ensure three distinct and unique answers are provided for each product query.
+            Each product should be distinctly different and not repeat others.
+            Include the product name and a URL exclusively sourced from the provided knowledge base.
+            Do not create new URLs. Use only the URLs provided in the knowledge base.
+            If a URL from the knowledge base is unavailable, acknowledge this and refrain from providing a URL.
+
             ''',
         ),
         MessagesPlaceholder(variable_name="chat_history"),
